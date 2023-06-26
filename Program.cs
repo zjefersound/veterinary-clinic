@@ -3,9 +3,9 @@ int option = 0;
 
 do
 {
-    Console.WriteLine("*******************************************");
-    Console.WriteLine("Programa para leitura e exportação de dados");
-    Console.WriteLine("*******************************************");
+    Console.WriteLine("===========================");
+    Console.WriteLine("Gestão clinica veterinária:");
+    Console.WriteLine("===========================");
     Console.WriteLine("");    
     Console.WriteLine("0 - Sair");
     Console.WriteLine("1 - Clientes");

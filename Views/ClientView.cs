@@ -70,56 +70,14 @@ namespace VeterinaryClinic.Views
 
         private string Print(Client client)
         {
-            string retorno = "";
-            retorno += $"Id: {client.Id} \n";
-            retorno += $"Nome: {client.FirstName} {client.LastName} \n";
-            retorno += "-------------------------------------------\n";
+            string content = "";
+            content += $"Id: {client.Id} \n";
+            content += $"Nome: {client.FirstName} {client.LastName} \n";
+            content += "-------------------------------------------\n";
 
-            return retorno;
+            return content;
 
         }
 
-        // private void Insert()
-        // {
-        //     Client client = new Client();
-
-        //     client.Id = clientController.GetNextId();
-
-        //     Console.WriteLine("Informe o primeiro nome:");
-        //     client.FirstName = Console.ReadLine();
-
-        //     Console.WriteLine("Informe o sobrenome:");
-        //     client.LastName = Console.ReadLine();
-
-        //     Console.WriteLine("Informe o CPF:");
-        //     client.CPF = Console.ReadLine();            
-
-        //     Console.WriteLine("Informe o email:");
-        //     client.Email = Console.ReadLine();     
-
-        //     bool retorno = clientController.Insert(client);
-
-        //     if( retorno )
-        //         Console.WriteLine("Cliente inserido com sucesso!");
-        //     else    
-        //         Console.WriteLine("Falha ao inserir, verifique os dados!");
-        // }
-
-
-        // private void Export()
-        // {
-        //     if( clientController.ExportToTextFile() )            
-        //         Console.WriteLine("Arquivo gerado com sucesso!");            
-        //     else                            
-        //         Console.WriteLine("Oooops.");
-        // }
-
-        // private void Import()
-        // {
-        //     if(clientController.ImportFromTxtFile())
-        //         Console.WriteLine("Dados importados com sucesso!");
-        //     else
-        //         Console.WriteLine("Ooooops.");
-        // }
     }
 }
