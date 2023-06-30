@@ -112,20 +112,22 @@ namespace VeterinaryClinic.Controllers
             }
         }
 
-        public List<Client> SearchByName(string name)
+        public List<Client> SearchByName(string name, int clinicId)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                 return null;
 
             List<Client> clients = new List<Client>();
-            for (int i = 0; i < DataSet.Clients.Count; i++)
+            foreach (var client in DataSet.Clients)
             {
-                var c = DataSet.Clients[i];
-                if (c.FullName.ToLower().Contains(name.ToLower()))
-                {
-                    clients.Add(c);
-                }
+                if (
+                    client.ClinicId == clinicId
+                    && client.FullName.ToLower().Contains(name.ToLower())
+                )
+
+                    clients.Add(client);
             }
+
             return clients;
         }
 

@@ -7,5 +7,7 @@ namespace VeterinaryClinic.Data
         public static List<Client> Clients = new List<Client>();
 
         public static List<Clinic> Clinics = new List<Clinic>();
+
+        public static List<Animal> Animals = new List<Animal>();
     }
 }

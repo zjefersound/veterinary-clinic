@@ -23,7 +23,7 @@ namespace VeterinaryClinic.Views
         public void Init()
         {
             Headings.Title($"{this.clinic.Name} > CLIENTES");
-            Menu.PrintOptions(new List<string> { "Inserir", "Listar", "Exportar", "Importar", });
+            Menu.PrintOptions(new List<string> { "Inserir", "Listar", "Exportar", "Importar", "Pesquisar"});
 
             int option = 0;
             option = Convert.ToInt32(Console.ReadLine());
@@ -44,6 +44,9 @@ namespace VeterinaryClinic.Views
 
                 case 4:
                     Import();
+                    break;
+                case 5:
+                    SearchByName();
                     break;
 
                 default:
@@ -122,6 +125,27 @@ namespace VeterinaryClinic.Views
                 Messages.Success("Dados importados com sucesso!");
             else
                 Messages.Ops();
+        }
+
+        private void SearchByName()
+        {
+            Headings.Title($"{this.clinic.Name} > Pesquisar clientes:");
+            Console.WriteLine("Digite o nome:");
+            string name = Console.ReadLine();
+
+            List<Client> list = clientController.SearchByName(name, clinic.Id);
+
+            if (list.Count <= 0)
+            {
+                Messages.Warn("Nenhum cliente foi encontrado");
+                return;
+            }
+
+            foreach (Client item in list)
+            {
+                Console.WriteLine(Print(item));
+            }
+            Messages.NeedsAction();
         }
     }
 }
