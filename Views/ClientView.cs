@@ -35,21 +35,21 @@ namespace VeterinaryClinic.Views
 
             switch(option)
             {
-                // case 1 : 
-                //     Insert();
-                // break;
+                case 1 : 
+                    Insert();
+                break;
 
                 case 2 :
                     List();
                 break;
 
-                // case 3 :
-                //     Export();
-                // break;
+                case 3 :
+                    Export();
+                break;
 
-                // case 4 :
-                //     Import();
-                // break;
+                case 4 :
+                    Import();
+                break;
 
                 default: 
                 break;
@@ -77,6 +77,49 @@ namespace VeterinaryClinic.Views
 
             return content;
 
+        }
+
+        private void Insert()
+        {
+            Client client = new Client();
+
+            client.Id = clientController.GetNextId();
+
+            Console.WriteLine("Informe o primeiro nome:");
+            client.FirstName = Console.ReadLine();
+
+            Console.WriteLine("Informe o sobrenome:");
+            client.LastName = Console.ReadLine();
+
+            Console.WriteLine("Informe o CPF:");
+            client.CPF = Console.ReadLine();            
+
+            Console.WriteLine("Informe o email:");
+            client.Email = Console.ReadLine();     
+
+            bool retorno = clientController.Insert(client);
+
+            if( retorno )
+                Console.WriteLine("Cliente inserido com sucesso!");
+            else    
+                Console.WriteLine("Falha ao inserir, verifique os dados!");
+        }
+
+
+        private void Export()
+        {
+            if( clientController.ExportToTextFile() )            
+                Console.WriteLine("Arquivo gerado com sucesso!");            
+            else                            
+                Console.WriteLine("Oooops.");
+        }
+
+        private void Import()
+        {
+            if(clientController.ImportFromTxtFile())
+                Console.WriteLine("Dados importados com sucesso!");
+            else
+                Console.WriteLine("Ooooops.");
         }
 
     }
