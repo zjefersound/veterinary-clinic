@@ -12,11 +12,13 @@ namespace VeterinaryClinic.Views
     {
         private Clinic clinic;
         private ClientController clientController;
+        private ClinicController clinicController;
 
         public ClientView(Clinic clinic)
         {
             this.clinic = clinic;
             this.clientController = new ClientController();
+            this.clinicController = new ClinicController();
             this.Init();
         }
 
@@ -77,6 +79,7 @@ namespace VeterinaryClinic.Views
             string content = "";
             content += $"Id: {client.Id} \n";
             content += $"Nome: {client.FirstName} {client.LastName} \n";
+            content += $"Email: {client.Email} \n";
             content += "-------------------------------------------\n";
 
             return content;
@@ -90,6 +93,7 @@ namespace VeterinaryClinic.Views
 
             client.Id = clientController.GetNextId();
             client.ClinicId = clinic.Id;
+            client.Clinic = clinicController.GetClinicById(clinic.Id);
 
             Console.WriteLine("Informe o primeiro nome:");
             client.FirstName = Console.ReadLine();

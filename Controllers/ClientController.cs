@@ -96,6 +96,7 @@ namespace VeterinaryClinic.Controllers
                     client.LastName = clientData[3];
                     client.Email = clientData[4];
                     client.ClinicId = Convert.ToInt32(clientData[5]);
+                    client.Clinic = DataSet.Clinics.Where(clinic => clinic.Id == Convert.ToInt32(clientData[5])).FirstOrDefault();
 
                     DataSet.Clients.Add(client);
 
@@ -131,24 +132,6 @@ namespace VeterinaryClinic.Controllers
             return clients;
         }
 
-        public Client GetClientById(int id)
-        {
-            if (id <= 0)
-                return null;
-
-            Client ret = new Client();
-            foreach (var c in DataSet.Clients)
-            {
-                if (c.Id == id)
-                {
-                    ret = c;
-                    break;
-                }
-            }
-
-            return ret;
-        }
-
         public int GetNextId()
         {
             int length = DataSet.Clients.Count;
@@ -157,6 +140,12 @@ namespace VeterinaryClinic.Controllers
                 return DataSet.Clients[length - 1].Id + 1;
             else
                 return 1;
+        }
+
+        public Client GetClientById(int id) {
+            Client client = new Client();
+            client = DataSet.Clients.Where(client => client.Id == id).FirstOrDefault();
+            return client;
         }
     }
 }

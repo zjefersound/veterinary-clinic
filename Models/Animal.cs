@@ -15,6 +15,6 @@ namespace VeterinaryClinic.Models
 
         public int OwnerId { get; set; }
 
-        public Client Owner => new Client();
+        public Client Owner { get; set; } 
     }
 }

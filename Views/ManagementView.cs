@@ -83,9 +83,9 @@ namespace VeterinaryClinic.Views
                     case 1:
                         ClientView clientView = new ClientView(currentClinic);
                         break;
-                    // case 2:
-                    //     ClientView clientView = new ClientView();
-                    //     break;
+                    case 2:
+                        AnimalView animalView = new AnimalView(currentClinic);
+                        break;
                     // case 3:
                     //     ClientView clientView = new ClientView();
                     //     break;

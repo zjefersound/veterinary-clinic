@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VeterinaryClinic.Models;
 
 namespace VeterinaryClinic.Models
 {
@@ -15,6 +16,7 @@ namespace VeterinaryClinic.Models
         public string? CPF { get; set; }
         public string? Email { get; set; }
         public int ClinicId { get; set; }
+        public Clinic Clinic { get; set; }
         
         public Client()
         {
@@ -38,8 +40,6 @@ namespace VeterinaryClinic.Models
 
         public string FullName => 
             $"{this.FirstName} {this.LastName}";
-        public string Clinic => 
-            $"{this.ClinicId} Bring data here";
 
 
         public override string ToString()

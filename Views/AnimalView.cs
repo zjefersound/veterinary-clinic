@@ -10,123 +10,145 @@ namespace VeterinaryClinic.Views
 {
     public class AnimalView
     {
-        // private Clinic clinic;
-        // private AnimalController animalController;
-        // private ClientController clientController;
+        private Clinic clinic;
+        private AnimalController animalController;
+        private ClientController clientController;
 
-        // public AnimalView(Clinic clinic)
-        // {
-        //     this.clinic = clinic;
-        //     this.animalController = new AnimalController();
-        //     this.Init();
-        // }
+        public AnimalView(Clinic clinic)
+        {
+            this.clinic = clinic;
+            this.animalController = new AnimalController();
+            this.clientController = new ClientController();
+            this.Init();
+        }
 
-        // public void Init()
-        // {
-        //     Headings.Title($"{this.clinic.Name} > ANIMAIS");
-        //     Menu.PrintOptions(new List<string> { "Inserir", "Listar", "Exportar", "Importar", "Pesquisar"});
+        public void Init()
+        {
+            Headings.Title($"{this.clinic.Name} > ANIMAIS");
+            Menu.PrintOptions(
+                new List<string> { "Inserir", "Listar", "Exportar", "Importar", "Pesquisar" }
+            );
 
-        //     int option = 0;
-        //     option = Convert.ToInt32(Console.ReadLine());
+            int option = 0;
+            option = Convert.ToInt32(Console.ReadLine());
 
-        //     switch (option)
-        //     {
-        //         case 1:
-        //             Insert();
-        //             break;
+            switch (option)
+            {
+                case 1:
+                    Insert();
+                    break;
 
-        //         case 2:
-        //             List();
-        //             break;
+                case 2:
+                    List();
+                    break;
 
-        //         case 3:
-        //             Export();
-        //             break;
+                case 3:
+                    Export();
+                    break;
 
-        //         case 4:
-        //             Import();
-        //             break;
-        //         case 5:
-        //             SearchByName();
-        //             break;
+                case 4:
+                    Import();
+                    break;
 
-        //         default:
-        //             break;
-        //     }
-        // }
+                // case 5:
+                //     SearchByName();
+                //     break;
 
-        // private void List()
-        // {
-        //     Headings.Title($"{this.clinic.Name} > Lista de animales:");
-        //     List<Animal> list = animalController.ListByClinic(clinic.Id);
+                default:
+                    break;
+            }
+        }
 
-        //     if (list.Count <= 0)
-        //     {
-        //         Messages.Warn("Nenhum animale foi encontrado");
-        //         return;
-        //     }
+        private void List()
+        {
+            Headings.Title($"{this.clinic.Name} > Lista de animais:");
+            List<Animal> list = animalController.ListByClinic(clinic.Id);
 
-        //     foreach (Animal item in list)
-        //     {
-        //         Console.WriteLine(Print(item));
-        //     }
-        //     Messages.NeedsAction();
-        // }
+            if (list.Count <= 0)
+            {
+                Messages.Warn("Nenhum animal foi encontrado");
+                return;
+            }
 
-        // private string Print(Animal animal)
-        // {
-        //     string content = "";
-        //     content += $"Id: {animal.Id} \n";
-        //     content += $"Nome: {animal.FirstName} {animal.LastName} \n";
-        //     content += "-------------------------------------------\n";
+            foreach (Animal item in list)
+            {
+                Console.WriteLine(Print(item));
+            }
+            Messages.NeedsAction();
+        }
 
-        //     return content;
-        // }
+        private string Print(Animal animal)
+        {
+            string content = "";
+            content += $"Id: {animal.Id} \n";
+            content += $"Nome: {animal.Name} \n";
+            content += $"Dono: {animal.Owner.FullName} \n";
+            content += "-------------------------------------------\n";
 
-        // private void Insert()
-        // {
-        //     Headings.Title("> Novo animale:");
+            return content;
+        }
 
-        //     Animal animal = new Animal();
+        private void Insert()
+        {
+            Headings.Title("> Novo animal:");
 
-        //     animal.Id = animalController.GetNextId();
-        //     animal.ClinicId = clinic.Id;
+            Animal animal = new Animal();
 
-        //     Console.WriteLine("Informe o primeiro nome:");
-        //     animal.FirstName = Console.ReadLine();
+            animal.Id = animalController.GetNextId();
 
-        //     Console.WriteLine("Informe o sobrenome:");
-        //     animal.LastName = Console.ReadLine();
+            Console.WriteLine("Selecione o dono:");
 
-        //     Console.WriteLine("Informe o CPF:");
-        //     animal.CPF = Console.ReadLine();
+            List<Client> clients = clientController.ListByClinic(clinic.Id);
 
-        //     Console.WriteLine("Informe o email:");
-        //     animal.Email = Console.ReadLine();
+            if (clients.Count <= 0)
+            {
+                Messages.Warn("Nenhum cliente foi encontrado");
+                return;
+            }
 
-        //     bool retorno = animalController.Insert(animal);
+            foreach (Client client in clients)
+            {
+                Console.WriteLine($"({client.Id}) {client.FullName}");
+            }
 
-        //     if (retorno)
-        //         Messages.Success("Animale inserido com sucesso!");
-        //     else
-        //         Messages.Warn("Falha ao inserir, verifique os dados!");
-        // }
+            int ownerId = Convert.ToInt32(Console.ReadLine());
+            animal.OwnerId = ownerId;
+            animal.Owner = clientController.GetClientById(ownerId);
+            if (animal.Owner.Id == null)
+            {
+                Messages.Warn("Dono inválido!");
+                return;
+            }
 
-        // private void Export()
-        // {
-        //     if (animalController.ExportToTextFile())
-        //         Messages.Success("Arquivo gerado com sucesso!");
-        //     else
-        //         Messages.Ops();
-        // }
+            Console.WriteLine("Informe o nome do animal:");
+            animal.Name = Console.ReadLine();
 
-        // private void Import()
-        // {
-        //     if (animalController.ImportFromTxtFile())
-        //         Messages.Success("Dados importados com sucesso!");
-        //     else
-        //         Messages.Ops();
-        // }
+            Console.WriteLine("Informe o tipo (cachorro, gato, tucano...):");
+            animal.Type = Console.ReadLine();
+
+            bool retorno = animalController.Insert(animal);
+
+            if (retorno)
+                Messages.Success("Animal inserido com sucesso!");
+            else
+                Messages.Warn("Falha ao inserir, verifique os dados!");
+        }
+
+        private void Export()
+        {
+            if (animalController.ExportToTextFile())
+                Messages.Success("Arquivo gerado com sucesso!");
+            else
+                Messages.Ops();
+        }
+
+        private void Import()
+        {
+            if (animalController.ImportFromTxtFile())
+                Messages.Success("Dados importados com sucesso!");
+            else
+                Messages.Ops();
+        }
 
         // private void SearchByName()
         // {
