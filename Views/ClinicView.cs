@@ -53,6 +53,11 @@ namespace VeterinaryClinic.Views
         {
             Headings.Title("> Lista de clínicas:");
             List<Clinic> list = clinicController.List();
+            if (list.Count <= 0)
+            {
+                Messages.Warn("Nenhuma clínica foi encontrada");
+                return;
+            }
 
             foreach (Clinic item in list)
             {

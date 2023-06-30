@@ -53,7 +53,14 @@ namespace VeterinaryClinic.Views
 
         private void List()
         {
-            List<Client> list = clientController.List();
+            Headings.Title($"{this.clinic.Name} > Lista de clientes:");
+            List<Client> list = clientController.ListByClinic(clinic.Id);
+
+            if (list.Count <= 0)
+            {
+                Messages.Warn("Nenhum cliente foi encontrado");
+                return;
+            }
 
             foreach (Client item in list)
             {

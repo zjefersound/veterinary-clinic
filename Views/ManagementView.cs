@@ -66,6 +66,11 @@ namespace VeterinaryClinic.Views
 
         public void ManageClinic()
         {
+            bool isClinicSelected =
+                this.currentClinic != null && Convert.ToBoolean(this.currentClinic.Id);
+            if (!isClinicSelected)
+                return;
+
             int option = 0;
             do
             {

@@ -19,6 +19,20 @@ namespace VeterinaryClinic.Controllers
             return DataSet.Clients;
         }
 
+        public List<Client> ListByClinic(int clinicId)
+        {
+            List<Client> clients = new List<Client>();
+
+            foreach (var client in DataSet.Clients)
+            {
+                if (client.ClinicId == clinicId)
+                {
+                    clients.Add(client);
+                }
+            }
+            return clients;
+        }
+
         public bool Insert(Client client)
         {
             if (client == null)
