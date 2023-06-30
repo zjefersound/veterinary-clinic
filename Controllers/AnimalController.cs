@@ -93,7 +93,7 @@ namespace VeterinaryClinic.Controllers
                     animal.Id = Convert.ToInt32(animalData[0]);
                     animal.Name = animalData[1];
                     animal.Type = animalData[2];
-                    animal.OwnerId = animalData[3];
+                    animal.OwnerId = Convert.ToInt32(animalData[3]);
                     animal.Owner = DataSet.Clients
                         .Where(client => client.Id == Convert.ToInt32(animalData[3]))
                         .FirstOrDefault();
