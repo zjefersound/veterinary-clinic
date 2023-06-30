@@ -93,15 +93,15 @@ namespace VeterinaryClinic.Views
             bool retorno = clientController.Insert(client);
 
             if (retorno)
-                Console.WriteLine("Cliente inserido com sucesso!");
+                Messages.Success("Cliente inserido com sucesso!");
             else
-                Console.WriteLine("Falha ao inserir, verifique os dados!");
+                Messages.Warn("Falha ao inserir, verifique os dados!");
         }
 
         private void Export()
         {
             if (clientController.ExportToTextFile())
-                Console.WriteLine("Arquivo gerado com sucesso!");
+                Messages.Success("Arquivo gerado com sucesso!");
             else
                 Messages.Ops();
         }
@@ -109,7 +109,7 @@ namespace VeterinaryClinic.Views
         private void Import()
         {
             if (clientController.ImportFromTxtFile())
-                Console.WriteLine("Dados importados com sucesso!");
+                Messages.Success("Dados importados com sucesso!");
             else
                 Messages.Ops();
         }

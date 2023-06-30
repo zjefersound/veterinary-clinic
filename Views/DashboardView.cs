@@ -18,23 +18,20 @@ namespace VeterinaryClinic.Views
             do
             {
                 Headings.Title("Gestão clinica veterinária:");
-                Menu.PrintOptions(new List<string> { "Selecionar clínica", "Gestão de clínicas",  });
+                Menu.PrintOptions(new List<string> { "Selecionar clínica", "Gestão de clínicas", });
 
                 option = Convert.ToInt32(Console.ReadLine());
 
                 switch (option)
                 {
                     case 1:
-                        Console.WriteLine("Selecionar clínica...");
                         ManagementView managementView = new ManagementView();
                         break;
                     case 2:
-                        Console.WriteLine("Gestão de clínicas...");
                         ClinicView clinicView = new ClinicView();
                         break;
                 }
-            }
-            while (option > 0);
+            } while (option > 0);
         }
     }
 }

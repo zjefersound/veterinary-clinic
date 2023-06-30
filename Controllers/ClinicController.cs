@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.IO;
 using VeterinaryClinic.Data;
 using VeterinaryClinic.Models;
+using VeterinaryClinic.Views;
 
 namespace VeterinaryClinic.Controllers
 {
@@ -55,8 +56,8 @@ namespace VeterinaryClinic.Controllers
             }
             catch (IOException ioEx)
             {
-                Console.WriteLine("Erro ao manipular o arquivo.");
-                Console.WriteLine(ioEx.Message);
+                Messages.Error("Erro ao manipular o arquivo.");
+                Messages.Error(ioEx.Message);
                 return false;
             }
 
@@ -88,8 +89,8 @@ namespace VeterinaryClinic.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ooops. Ocorreu um erro ao tentar importar os dados.");
-                Console.WriteLine(ex.Message);
+                Messages.Error("Ooops. Ocorreu um erro ao tentar importar os dados.");
+                Messages.Error(ex.Message);
                 return false;
             }
         }

@@ -4,7 +4,15 @@ namespace VeterinaryClinic.Views
     {
         public static void Error(string text)
         {
+            Console.WriteLine($"\n[ERRO] {text}");
+        }
+        public static void Warn(string text)
+        {
             Console.WriteLine($"\n[!] {text}");
+        }
+        public static void Success(string text)
+        {
+            Console.WriteLine($"\n[SUCESSO] {text}");
         }
 
         public static void Ops()

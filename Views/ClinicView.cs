@@ -52,11 +52,11 @@ namespace VeterinaryClinic.Views
         private void List()
         {
             Headings.Title("> Lista de clínicas:");
-            List<Clinic> listagem = ClinicController.List();
+            List<Clinic> list = ClinicController.List();
 
-            for (int i = 0; i < listagem.Count; i++)
+            foreach (Clinic item in list)
             {
-                Console.WriteLine(Print(listagem[i]));
+                Console.WriteLine(Print(item));
             }
             Messages.NeedsAction();
         }
@@ -88,15 +88,15 @@ namespace VeterinaryClinic.Views
             bool result = ClinicController.Insert(Clinic);
 
             if (result)
-                Console.WriteLine("Clínica inserida com sucesso!");
+                Messages.Success("Clínica inserida com sucesso!");
             else
-                Console.WriteLine("Falha ao inserir, verifique os dados!");
+                Messages.Warn("Falha ao inserir, verifique os dados!");
         }
 
         private void Export()
         {
             if (ClinicController.ExportToTextFile())
-                Console.WriteLine("Arquivo gerado com sucesso!");
+                Messages.Success("Arquivo gerado com sucesso!");
             else
                 Messages.Ops();
         }
@@ -104,7 +104,7 @@ namespace VeterinaryClinic.Views
         private void Import()
         {
             if (ClinicController.ImportFromTxtFile())
-                Console.WriteLine("Dados importados com sucesso!");
+                Messages.Success("Dados importados com sucesso!");
             else
                 Messages.Ops();
         }
