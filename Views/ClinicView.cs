@@ -10,11 +10,11 @@ namespace VeterinaryClinic.Views
 {
     public class ClinicView
     {
-        private ClinicController ClinicController;
+        private ClinicController clinicController;
 
         public ClinicView()
         {
-            ClinicController = new ClinicController();
+            this.clinicController = new ClinicController();
             this.Init();
         }
 
@@ -52,7 +52,7 @@ namespace VeterinaryClinic.Views
         private void List()
         {
             Headings.Title("> Lista de clínicas:");
-            List<Clinic> list = ClinicController.List();
+            List<Clinic> list = clinicController.List();
 
             foreach (Clinic item in list)
             {
@@ -77,7 +77,7 @@ namespace VeterinaryClinic.Views
 
             Clinic Clinic = new Clinic();
 
-            Clinic.Id = ClinicController.GetNextId();
+            Clinic.Id = clinicController.GetNextId();
 
             Console.WriteLine("Informe o nome:");
             Clinic.Name = Console.ReadLine();
@@ -85,7 +85,7 @@ namespace VeterinaryClinic.Views
             Console.WriteLine("Informe o email:");
             Clinic.Email = Console.ReadLine();
 
-            bool result = ClinicController.Insert(Clinic);
+            bool result = clinicController.Insert(Clinic);
 
             if (result)
                 Messages.Success("Clínica inserida com sucesso!");
@@ -95,7 +95,7 @@ namespace VeterinaryClinic.Views
 
         private void Export()
         {
-            if (ClinicController.ExportToTextFile())
+            if (clinicController.ExportToTextFile())
                 Messages.Success("Arquivo gerado com sucesso!");
             else
                 Messages.Ops();
@@ -103,7 +103,7 @@ namespace VeterinaryClinic.Views
 
         private void Import()
         {
-            if (ClinicController.ImportFromTxtFile())
+            if (clinicController.ImportFromTxtFile())
                 Messages.Success("Dados importados com sucesso!");
             else
                 Messages.Ops();

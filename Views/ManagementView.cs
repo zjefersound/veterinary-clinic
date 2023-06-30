@@ -9,23 +9,31 @@ namespace VeterinaryClinic.Views
 {
     public class ManagementView
     {
-        private Clinic CurrentClinic;
-        private ClinicController ClinicController;
+        private Clinic currentClinic;
+        private ClinicController clinicController;
 
         public ManagementView()
         {
-            this.CurrentClinic = null;
-            ClinicController = new ClinicController();
+            this.currentClinic = null;
+            this.clinicController = new ClinicController();
             this.Init();
         }
 
         public void Init()
         {
-            while (CurrentClinic == null)
+            this.SelectClinic();
+            this.ManageClinic();
+        }
+
+        public void SelectClinic()
+        {
+            bool isClinicSelected =
+                this.currentClinic != null && Convert.ToBoolean(this.currentClinic.Id);
+            while (!isClinicSelected)
             {
                 Headings.Title("Selecionar clínica");
 
-                List<Clinic> list = ClinicController.List();
+                List<Clinic> list = clinicController.List();
 
                 if (list.Count <= 0)
                 {
@@ -38,20 +46,22 @@ namespace VeterinaryClinic.Views
                 {
                     Console.WriteLine($"({item.Id}) {item.Name}");
                 }
-                
+
                 int option = 0;
                 option = Convert.ToInt32(Console.ReadLine());
 
                 if (option == 0)
-                    break;
+                    return;
 
-                this.CurrentClinic = ClinicController.GetClinicById(option);
-                if (this.CurrentClinic)
-                    Messages.Success($"Clínica Selecionada: {this.CurrentClinic.Name}");
-                else
-                    Messages.Warn("Clínica Inválida");
+                this.currentClinic = clinicController.GetClinicById(option);
+
+                if (Convert.ToBoolean(this.currentClinic.Id))
+                {
+                    Messages.Success($"Clínica Selecionada: {this.currentClinic.Name}");
+                    break;
+                }
+                Messages.Warn("Clínica Inválida");
             }
-            this.ManageClinic();
         }
 
         public void ManageClinic()
@@ -59,8 +69,22 @@ namespace VeterinaryClinic.Views
             int option = 0;
             do
             {
-                Headings.Title("SUA CLINICA");
+                Headings.Title($"CLÍNICA: {currentClinic.Name}");
+                Console.WriteLine("O que você deseja fazer?");
                 Menu.PrintOptions(new List<string> { "Clientes", "Animais", "Consultas", });
+                option = Convert.ToInt32(Console.ReadLine());
+                switch (option)
+                {
+                    case 1:
+                        ClientView clientView = new ClientView(currentClinic);
+                        break;
+                    // case 2:
+                    //     ClientView clientView = new ClientView();
+                    //     break;
+                    // case 3:
+                    //     ClientView clientView = new ClientView();
+                    //     break;
+                }
             } while (option > 0);
         }
     }

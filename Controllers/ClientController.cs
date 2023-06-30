@@ -43,7 +43,7 @@ namespace VeterinaryClinic.Controllers
             string fileContent = string.Empty;
             foreach (Client c in DataSet.Clients)
             {
-                fileContent += $"{c.Id};{c.CPF};{c.FirstName};{c.LastName};{c.Email}";
+                fileContent += $"{c.Id};{c.CPF};{c.FirstName};{c.LastName};{c.Email};{c.ClinicId}";
                 fileContent += "\n";
             }
 
@@ -81,6 +81,7 @@ namespace VeterinaryClinic.Controllers
                     client.FirstName = clientData[2];
                     client.LastName = clientData[3];
                     client.Email = clientData[4];
+                    client.ClinicId = Convert.ToInt32(clientData[5]);
 
                     DataSet.Clients.Add(client);
 

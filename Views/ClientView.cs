@@ -10,17 +10,19 @@ namespace VeterinaryClinic.Views
 {
     public class ClientView
     {
+        private Clinic clinic;
         private ClientController clientController;
 
-        public ClientView()
+        public ClientView(Clinic clinic)
         {
-            clientController = new ClientController();
+            this.clinic = clinic;
+            this.clientController = new ClientController();
             this.Init();
         }
 
         public void Init()
         {
-            Headings.Title("> CLIENTES");
+            Headings.Title($"{this.clinic.Name} > CLIENTES");
             Menu.PrintOptions(new List<string> { "Inserir", "Listar", "Exportar", "Importar", });
 
             int option = 0;
@@ -77,6 +79,7 @@ namespace VeterinaryClinic.Views
             Client client = new Client();
 
             client.Id = clientController.GetNextId();
+            client.ClinicId = clinic.Id;
 
             Console.WriteLine("Informe o primeiro nome:");
             client.FirstName = Console.ReadLine();
