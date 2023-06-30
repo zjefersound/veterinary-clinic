@@ -51,13 +51,13 @@ namespace VeterinaryClinic.Views
 
         private void List()
         {
-            List<Client> listagem = clientController.List();
+            List<Client> list = clientController.List();
 
-            for (int i = 0; i < listagem.Count; i++)
+            foreach (Client item in list)
             {
-                Console.WriteLine(Print(listagem[i]));
+                Console.WriteLine(Print(item));
             }
-            Console.ReadLine();
+            Messages.NeedsAction();
         }
 
         private string Print(Client client)
