@@ -8,28 +8,28 @@ using VeterinaryClinic.Models;
 
 namespace VeterinaryClinic.Controllers
 {
-    public class ClientController
+    public class ClinicController
     {
         private string directoryName = "ReportFiles";
-        private string fileName = "Clients.txt";
+        private string fileName = "Clinics.txt";
 
-        public List<Client> List()
+        public List<Clinic> List()
         {
-            return DataSet.Clients;
+            return DataSet.Clinics;
         }
 
-        public bool Insert(Client client)
+        public bool Insert(Clinic Clinic)
         {
-            if (client == null)
+            if (Clinic == null)
                 return false;
 
-            if (client.Id <= 0)
+            if (Clinic.Id <= 0)
                 return false;
 
-            if (string.IsNullOrWhiteSpace(client.FirstName))
+            if (string.IsNullOrWhiteSpace(Clinic.Name))
                 return false;
 
-            DataSet.Clients.Add(client);
+            DataSet.Clinics.Add(Clinic);
 
             return true;
         }
@@ -40,9 +40,9 @@ namespace VeterinaryClinic.Controllers
                 Directory.CreateDirectory(directoryName);
 
             string fileContent = string.Empty;
-            foreach (Client c in DataSet.Clients)
+            foreach (Clinic c in DataSet.Clinics)
             {
-                fileContent += $"{c.Id};{c.CPF};{c.FirstName};{c.LastName};{c.Email}";
+                fileContent += $"{c.Id};{c.Name};{c.Email}";
                 fileContent += "\n";
             }
 
@@ -73,15 +73,13 @@ namespace VeterinaryClinic.Controllers
                 line = sr.ReadLine();
                 while (line != null)
                 {
-                    Client client = new Client();
-                    string[] clientData = line.Split(';');
-                    client.Id = Convert.ToInt32(clientData[0]);
-                    client.CPF = clientData[1];
-                    client.FirstName = clientData[2];
-                    client.LastName = clientData[3];
-                    client.Email = clientData[4];
+                    Clinic Clinic = new Clinic();
+                    string[] ClinicData = line.Split(';');
+                    Clinic.Id = Convert.ToInt32(ClinicData[0]);
+                    Clinic.Name = ClinicData[1];
+                    Clinic.Email = ClinicData[2];
 
-                    DataSet.Clients.Add(client);
+                    DataSet.Clinics.Add(Clinic);
 
                     line = sr.ReadLine();
                 }
@@ -96,30 +94,13 @@ namespace VeterinaryClinic.Controllers
             }
         }
 
-        public List<Client> SearchByName(string name)
-        {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                return null;
-
-            List<Client> clients = new List<Client>();
-            for (int i = 0; i < DataSet.Clients.Count; i++)
-            {
-                var c = DataSet.Clients[i];
-                if (c.FullName.ToLower().Contains(name.ToLower()))
-                {
-                    clients.Add(c);
-                }
-            }
-            return clients;
-        }
-
-        public Client GetClientById(int id)
+        public Clinic GetClinicById(int id)
         {
             if (id <= 0)
                 return null;
 
-            Client ret = new Client();
-            foreach (var c in DataSet.Clients)
+            Clinic ret = new Clinic();
+            foreach (var c in DataSet.Clinics)
             {
                 if (c.Id == id)
                 {
@@ -133,10 +114,10 @@ namespace VeterinaryClinic.Controllers
 
         public int GetNextId()
         {
-            int length = DataSet.Clients.Count;
+            int length = DataSet.Clinics.Count;
 
             if (length > 0)
-                return DataSet.Clients[length - 1].Id + 1;
+                return DataSet.Clinics[length - 1].Id + 1;
             else
                 return 1;
         }

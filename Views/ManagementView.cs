@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace VeterinaryClinic.Views
 {
-    public class DashboardView
+    public class ManagementView
     {
-        public DashboardView()
+        public ManagementView()
         {
             this.Init();
         }
@@ -17,8 +17,8 @@ namespace VeterinaryClinic.Views
             int option = 0;
             do
             {
-                Headings.Title("Gestão clinica veterinária:");
-                Menu.PrintOptions(new List<string> { "Selecionar clínica", "Gestão de clínicas",  });
+                Headings.Title("SUA CLINICA");
+                Menu.PrintOptions(new List<string> { "Clientes", "Animais", "Consultas", });
 
                 option = Convert.ToInt32(Console.ReadLine());
 
@@ -26,15 +26,14 @@ namespace VeterinaryClinic.Views
                 {
                     case 1:
                         Console.WriteLine("Selecionar clínica...");
-                        ManagementView managementView = new ManagementView();
+                        ClientView clientView = new ClientView();
                         break;
                     case 2:
                         Console.WriteLine("Gestão de clínicas...");
                         ClinicView clinicView = new ClinicView();
                         break;
                 }
-            }
-            while (option > 0);
+            } while (option > 0);
         }
     }
 }

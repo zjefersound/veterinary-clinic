@@ -8,19 +8,19 @@ using VeterinaryClinic.Models;
 
 namespace VeterinaryClinic.Views
 {
-    public class ClientView
+    public class ClinicView
     {
-        private ClientController clientController;
+        private ClinicController ClinicController;
 
-        public ClientView()
+        public ClinicView()
         {
-            clientController = new ClientController();
+            ClinicController = new ClinicController();
             this.Init();
         }
 
         public void Init()
         {
-            Headings.Title("> CLIENTES");
+            Headings.Title("> CLÍNICAS");
             Menu.PrintOptions(new List<string> { "Inserir", "Listar", "Exportar", "Importar", });
 
             int option = 0;
@@ -51,20 +51,21 @@ namespace VeterinaryClinic.Views
 
         private void List()
         {
-            List<Client> listagem = clientController.List();
+            Headings.Title("> Lista de clínicas:");
+            List<Clinic> listagem = ClinicController.List();
 
             for (int i = 0; i < listagem.Count; i++)
             {
                 Console.WriteLine(Print(listagem[i]));
             }
-            Console.ReadLine();
+            Messages.NeedsAction();
         }
 
-        private string Print(Client client)
+        private string Print(Clinic Clinic)
         {
             string content = "";
-            content += $"Id: {client.Id} \n";
-            content += $"Nome: {client.FirstName} {client.LastName} \n";
+            content += $"Id: {Clinic.Id} \n";
+            content += $"Nome: {Clinic.Name} \n";
             content += "-------------------------------------------\n";
 
             return content;
@@ -72,35 +73,29 @@ namespace VeterinaryClinic.Views
 
         private void Insert()
         {
-            Headings.Title("> Novo cliente:");
+            Headings.Title("> Nova clínica:");
 
-            Client client = new Client();
+            Clinic Clinic = new Clinic();
 
-            client.Id = clientController.GetNextId();
+            Clinic.Id = ClinicController.GetNextId();
 
-            Console.WriteLine("Informe o primeiro nome:");
-            client.FirstName = Console.ReadLine();
-
-            Console.WriteLine("Informe o sobrenome:");
-            client.LastName = Console.ReadLine();
-
-            Console.WriteLine("Informe o CPF:");
-            client.CPF = Console.ReadLine();
+            Console.WriteLine("Informe o nome:");
+            Clinic.Name = Console.ReadLine();
 
             Console.WriteLine("Informe o email:");
-            client.Email = Console.ReadLine();
+            Clinic.Email = Console.ReadLine();
 
-            bool retorno = clientController.Insert(client);
+            bool result = ClinicController.Insert(Clinic);
 
-            if (retorno)
-                Console.WriteLine("Cliente inserido com sucesso!");
+            if (result)
+                Console.WriteLine("Clínica inserida com sucesso!");
             else
                 Console.WriteLine("Falha ao inserir, verifique os dados!");
         }
 
         private void Export()
         {
-            if (clientController.ExportToTextFile())
+            if (ClinicController.ExportToTextFile())
                 Console.WriteLine("Arquivo gerado com sucesso!");
             else
                 Messages.Ops();
@@ -108,7 +103,7 @@ namespace VeterinaryClinic.Views
 
         private void Import()
         {
-            if (clientController.ImportFromTxtFile())
+            if (ClinicController.ImportFromTxtFile())
                 Console.WriteLine("Dados importados com sucesso!");
             else
                 Messages.Ops();
