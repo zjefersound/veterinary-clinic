@@ -26,7 +26,7 @@ namespace VeterinaryClinic.Views
         {
             Headings.Title($"{this.clinic.Name} > ANIMAIS");
             Menu.PrintOptions(
-                new List<string> { "Inserir", "Listar", "Exportar", "Importar", "Pesquisar" }
+                new List<string> { "Inserir", "Listar", "Exportar", "Importar" }
             );
 
             int option = 0;
@@ -49,10 +49,6 @@ namespace VeterinaryClinic.Views
                 case 4:
                     Import();
                     break;
-
-                // case 5:
-                //     SearchByName();
-                //     break;
 
                 default:
                     break;
@@ -149,26 +145,5 @@ namespace VeterinaryClinic.Views
             else
                 Messages.Ops();
         }
-
-        // private void SearchByName()
-        // {
-        //     Headings.Title($"{this.clinic.Name} > Pesquisar animales:");
-        //     Console.WriteLine("Digite o nome:");
-        //     string name = Console.ReadLine();
-
-        //     List<Animal> list = animalController.SearchByName(name, clinic.Id);
-
-        //     if (list.Count <= 0)
-        //     {
-        //         Messages.Warn("Nenhum animale foi encontrado");
-        //         return;
-        //     }
-
-        //     foreach (Animal item in list)
-        //     {
-        //         Console.WriteLine(Print(item));
-        //     }
-        //     Messages.NeedsAction();
-        // }
     }
 }

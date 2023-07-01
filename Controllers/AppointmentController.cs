@@ -9,42 +9,45 @@ using VeterinaryClinic.Views;
 
 namespace VeterinaryClinic.Controllers
 {
-    public class AnimalController
+    public class AppointmentController
     {
         private string directoryName = "ReportFiles";
-        private string fileName = "Animals.txt";
+        private string fileName = "Appointments.txt";
 
-        public List<Animal> List()
+        public List<Appointment> List()
         {
-            return DataSet.Animals;
+            return DataSet.Appointments;
         }
 
-        public List<Animal> ListByClinic(int clinicId)
+        public List<Appointment> ListByClinic(int clinicId)
         {
-            List<Animal> animals = new List<Animal>();
+            List<Appointment> appointments = new List<Appointment>();
 
-            foreach (var animal in DataSet.Animals)
+            foreach (var appointment in DataSet.Appointments)
             {
-                if (animal.Owner.Clinic.Id == clinicId)
+                if (appointment.Clinic.Id == clinicId)
                 {
-                    animals.Add(animal);
+                    appointments.Add(appointment);
                 }
             }
-            return animals;
+            return appointments;
         }
 
-        public bool Insert(Animal animal)
+        public bool Insert(Appointment appointment)
         {
-            if (animal == null)
+            if (appointment == null)
                 return false;
 
-            if (animal.Id <= 0)
+            if (appointment.Id <= 0)
                 return false;
 
-            if (string.IsNullOrWhiteSpace(animal.Name))
+            if (string.IsNullOrWhiteSpace(appointment.Reason))
                 return false;
 
-            DataSet.Animals.Add(animal);
+            if (appointment.Date == null)
+                return false;
+
+            DataSet.Appointments.Add(appointment);
 
             return true;
         }
@@ -55,9 +58,9 @@ namespace VeterinaryClinic.Controllers
                 Directory.CreateDirectory(directoryName);
 
             string fileContent = string.Empty;
-            foreach (Animal c in DataSet.Animals)
+            foreach (Appointment c in DataSet.Appointments)
             {
-                fileContent += $"{c.Id};{c.Name};{c.Type};{c.OwnerId}";
+                fileContent += $"{c.Id};{c.Reason};{c.Date.ToString()};{c.AnimalId};{c.ClinicId}";
                 fileContent += "\n";
             }
 
@@ -88,17 +91,21 @@ namespace VeterinaryClinic.Controllers
                 line = sr.ReadLine();
                 while (line != null)
                 {
-                    Animal animal = new Animal();
-                    string[] animalData = line.Split(';');
-                    animal.Id = Convert.ToInt32(animalData[0]);
-                    animal.Name = animalData[1];
-                    animal.Type = animalData[2];
-                    animal.OwnerId = Convert.ToInt32(animalData[3]);
-                    animal.Owner = DataSet.Clients
-                        .Where(client => client.Id == Convert.ToInt32(animalData[3]))
+                    Appointment appointment = new Appointment();
+                    string[] appointmentData = line.Split(';');
+                    appointment.Id = Convert.ToInt32(appointmentData[0]);
+                    appointment.Reason = appointmentData[1];
+                    appointment.Date = DateTime.Parse(appointmentData[2]);
+                    appointment.AnimalId = Convert.ToInt32(appointmentData[3]);
+                    appointment.Animal = DataSet.Animals
+                        .Where(animal => animal.Id == Convert.ToInt32(appointmentData[3]))
+                        .FirstOrDefault();
+                    appointment.ClinicId = Convert.ToInt32(appointmentData[4]);
+                    appointment.Clinic = DataSet.Clinics
+                        .Where(clinic => clinic.Id == Convert.ToInt32(appointmentData[4]))
                         .FirstOrDefault();
 
-                    DataSet.Animals.Add(animal);
+                    DataSet.Appointments.Add(appointment);
 
                     line = sr.ReadLine();
                 }
@@ -113,13 +120,13 @@ namespace VeterinaryClinic.Controllers
             }
         }
 
-        public Animal GetAnimalById(int id)
+        public Appointment GetAppointmentById(int id)
         {
             if (id <= 0)
                 return null;
 
-            Animal ret = new Animal();
-            foreach (var c in DataSet.Animals)
+            Appointment ret = new Appointment();
+            foreach (var c in DataSet.Appointments)
             {
                 if (c.Id == id)
                 {
@@ -131,31 +138,12 @@ namespace VeterinaryClinic.Controllers
             return ret;
         }
 
-        public List<Animal> SearchByName(string name, int clinicId)
-        {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                return null;
-
-            List<Animal> animals = new List<Animal>();
-            foreach (var animal in DataSet.Animals)
-            {
-                if (
-                    animal.Owner.ClinicId == clinicId
-                    && animal.Name.ToLower().Contains(name.ToLower())
-                )
-
-                    animals.Add(animal);
-            }
-
-            return animals;
-        }
-
         public int GetNextId()
         {
-            int length = DataSet.Animals.Count;
+            int length = DataSet.Appointments.Count;
 
             if (length > 0)
-                return DataSet.Animals[length - 1].Id + 1;
+                return DataSet.Appointments[length - 1].Id + 1;
             else
                 return 1;
         }

@@ -86,9 +86,9 @@ namespace VeterinaryClinic.Views
                     case 2:
                         AnimalView animalView = new AnimalView(currentClinic);
                         break;
-                    // case 3:
-                    //     ClientView clientView = new ClientView();
-                    //     break;
+                    case 3:
+                        AppointmentView appointmentView = new AppointmentView(currentClinic);
+                        break;
                 }
             } while (option > 0);
         }
