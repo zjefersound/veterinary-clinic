@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using VeterinaryClinic.Controllers;
 using VeterinaryClinic.Data;
 using VeterinaryClinic.Models;
+using VeterinaryClinic.Utils;
 
 namespace VeterinaryClinic.Views
 {
@@ -40,13 +41,13 @@ namespace VeterinaryClinic.Views
                     List();
                     break;
 
-                // case 3:
-                //     Export();
-                //     break;
+                case 3:
+                    Export();
+                    break;
 
-                // case 4:
-                //     Import();
-                //     break;
+                case 4:
+                    Import();
+                    break;
 
                 default:
                     break;
@@ -78,7 +79,7 @@ namespace VeterinaryClinic.Views
             content += $"Motivo: {appointment.Reason} \n";
             content += $"Animal: {appointment.Animal.Name} \n";
             content += $"Dono: {appointment.Animal.Owner.FullName} \n";
-            content += $"Data: {appointment.Date.ToString()} \n";
+            content += $"Data: {DateFormatter.DateToString(appointment.Date)} \n";
             content += "-------------------------------------------\n";
 
             return content;
@@ -135,7 +136,9 @@ namespace VeterinaryClinic.Views
             string date = Console.ReadLine();
 
             Console.WriteLine("Selecione o horário:");
-            Menu.PrintOptions(new List<string> { "9:00", "11:00", "13:00", "15:00" });
+            List<string> timeOptions = new List<string> { "9:00", "11:00", "13:00", "15:00" };
+            Menu.PrintOptions(timeOptions);
+
             int timeOption = Convert.ToInt32(Console.ReadLine());
 
             if (timeOption <= 0 || timeOption > 4)
@@ -143,17 +146,7 @@ namespace VeterinaryClinic.Views
                 Messages.Warn("Consulta cancelada");
             }
 
-            Console.WriteLine(DateTime.Now);
- 
-            DateTime dateTime;
-            if (DateTime.TryParse(date, out dateTime)) 
-                Console.WriteLine("The specified date is valid: " + dateTime);
-            
-            else 
-                Console.WriteLine("Unable to parse the specified date");
-            
-            appointment.Date = DateTime.Now;
-
+            appointment.Date = DateFormatter.StringToDate(date + " " + timeOptions[timeOption - 1]);
 
             bool retorno = appointmentController.Insert(appointment);
 
@@ -163,20 +156,20 @@ namespace VeterinaryClinic.Views
                 Messages.Warn("Falha ao inserir, verifique os dados!");
         }
 
-        // private void Export()
-        // {
-        //     if (appointmentController.ExportToTextFile())
-        //         Messages.Success("Arquivo gerado com sucesso!");
-        //     else
-        //         Messages.Ops();
-        // }
+        private void Export()
+        {
+            if (appointmentController.ExportToTextFile())
+                Messages.Success("Arquivo gerado com sucesso!");
+            else
+                Messages.Ops();
+        }
 
-        // private void Import()
-        // {
-        //     if (appointmentController.ImportFromTxtFile())
-        //         Messages.Success("Dados importados com sucesso!");
-        //     else
-        //         Messages.Ops();
-        // }
+        private void Import()
+        {
+            if (appointmentController.ImportFromTxtFile())
+                Messages.Success("Dados importados com sucesso!");
+            else
+                Messages.Ops();
+        }
     }
 }
